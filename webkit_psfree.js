@@ -682,20 +682,20 @@ async function run_psfree() {
     progress.innerHTML="[+] اضغط اكس للتهكير";
     await get_ready();
 
-    progress.innerHTML="[+] Webkit exploit (PSFree) (Step 1 - UAF)";
+    progress.innerHTML="[+]  اضغط اكس للتهكير";
     await use_after_free(pop, s1);
 
     /* we trigger the leak first because it is more likely to work than
        if it were to happen during the second ssv smashing on the ps4 */
 
-    progress.innerHTML="[+] Webkit exploit (PSFree) (Step 2 - Double free)";
+    progress.innerHTML="[+]  اضغط اكس للتهكير";
     /* keeps setup_ar()'s total sleep even lower
        also helps the garbage collector scheduling for 9.xx */
 
     await sleep(0);
     await double_free(s1);
 
-    progress.innerHTML="[+] Webkit exploit (PSFree) (Step 2 - Triple free)";
+    progress.innerHTML="[+]  اضغط اكس للتهكير";
     await triple_free(s1, jsview, view_leak_arr, view_leak);
 
     // clear_log();
