@@ -756,7 +756,7 @@ async function run_psfree() {
         }
     };
     EndTimer();
-    progress.innerHTML="[+] تمت بنجاح)";
+    progress.innerHTML="[+] Webkit exploit (PSFree) (Finished)";
     window.p = prim;
     run_hax();
 }
