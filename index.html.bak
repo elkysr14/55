@@ -1,0 +1,92 @@
+<html>
+<meta charset="utf-8">
+<title>zezo [GoldHEN gold hen v2.4b16] </title>
+<style>
+html, body {
+background-image: url('zezo.jpg');
+background-size: 100%;
+background-repeat: no-repeat;
+background-color: #24272b;
+color: white;
+text-align: center;
+margin: 0px;
+overflow: hidden;
+}
+h1 {
+text-shadow: 0.1em 0.1em 0.2em black;
+font-size: 25px;
+text-align: center;
+color: white;
+}
+a {
+text-decoration: none;
+}
+</style>
+<script>
+if (window.applicationCache.status=='0'){window.location.replace("cache.html");}
+
+function loadBIN(){
+ var req = new XMLHttpRequest();
+ req.responseType = "arraybuffer";
+ req.open('GET', PLfile);
+ req.send();
+ req.onreadystatechange = function () {
+  if (req.readyState == 4) {
+   PLD = req.response;
+   var payload_buffer = chain.syscall(477, 0, PLD.byteLength*4 , 7, 0x1002, -1, 0);
+   var pl = p.array_from_address(payload_buffer, PLD.byteLength*4);
+   var padding = new Uint8Array(4 - (req.response.byteLength % 4) % 4);
+   var tmp = new Uint8Array(req.response.byteLength + padding.byteLength);
+   tmp.set(new Uint8Array(req.response), 0);
+   tmp.set(padding, req.response.byteLength);
+   var shellcode = new Uint32Array(tmp.buffer);
+   pl.set(shellcode,0);
+   var pthread = p.malloc(0x10);
+   chain.call(libKernelBase.add32(OFFSET_lk_pthread_create), pthread, 0x0, payload_buffer, 0);
+   allset();
+  }
+ };
+}
+
+function jbdone() {
+goldhen();
+}
+
+function allset() {
+window.progress.innerHTML= LoadedMSG
+}
+
+function goldhen(){
+    progress.innerHTML="Gold hen loading... please wait";
+    LoadedMSG="GoldHEN Loaded";
+    PLfile = "goldhen.bin";
+    setTimeout(loadBIN,50);
+}
+
+function startpoc() {
+	StartTimer();
+	setTimeout(run_psfree,1500);
+}
+	
+function CalcTime(dur){hrs=Math.floor(dur/1000/60/60);min=Math.floor(dur/1000/60-hrs*60);sec=Math.floor(dur/1000-min*60);mil=dur.toString().slice(-3);if (min!=0){ShowDuration=" - WK Exploited In : "+min+" minute"+(min==1?"":"s")+", "+sec+" second"+(sec==1?"":"s");}else {ShowDuration=" - WK Exploited In: "+sec+" second"+(sec==1?"":"s");}}
+function StartTimer(){StartTime=Date.now();}
+function EndTimer(){EndTime=Date.now();CalcTime(EndTime=Date.now()-StartTime);document.title+=ShowDuration;}
+</script>
+    <script defer src="int64.js"></script>
+    <script defer src="rop.js"></script>
+    <script defer src="exploit.js"></script>
+    <script defer src="module/utils.js"></script>
+    <script defer src="module/constants.js"></script>
+    <script defer src="module/int64.js"></script>
+    <script defer src="module/mem.js"></script>
+    <script defer src="module/memtools.js"></script>
+    <script defer src="module/rw.js"></script>
+    <script defer src="webkit_psfree.js"></script>
+</head>
+<br><br><br><br><br><br>
+<body onload="setTimeout(startpoc,50);">
+<h1 id=progress style="font-size: 30px;margin-top: 77px;margin-bottom: 250px;">Jailbreaking <font color=#fc0404> ( Please wait ) ....</h1>
+<br>
+<h1 style="margin-top: 170px; color: red;">Special Thanks to:<a href="https://twitter.com/sleirsgoevy" style="color:white; margin-left: 15px;">@sleirsgoevy</a><a style="color:white; margin-left: 15px;">ChendoChap</a><a href="https://twitter.com/SpecterDev" style="color:white; margin-left: 15px;">@SpecterDev</a><a style="color:white; margin-left: 15px;">SiSTR0</a><a href="https://twitter.com/Znullptr" style="color:white; margin-left: 15px;">@Znullptr</a><br><a style="color:white; margin-left: 15px;">All developers who contributed to the ps4 scene ...</a></h1>
+</body>
+</html>
